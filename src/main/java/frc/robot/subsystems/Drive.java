@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.frc5587.lib.LimitedHashMap;
-import org.frc5587.lib.pathfinder.AbstractDrive;
+import org.frc5587.lib.pathfinder.SparkAbstractDrive;
 import org.frc5587.lib.pathfinder.Pathgen;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
-public class Drive extends AbstractDrive implements PIDOutput {
+public class Drive extends SparkAbstractDrive implements PIDOutput {
 
     public static final Pathgen SLOW_PATHGEN = new Pathgen(30, 0.010, 36, 60, 120);
 	public static final Pathgen MED_PATHGEN = new Pathgen(30, 0.010, 60, 80, 160);
@@ -176,7 +176,7 @@ public class Drive extends AbstractDrive implements PIDOutput {
 
 		this.visionTimeDelta = sum / visionTimeDeltas.size();
 	}
-
+	
 	public void updateGyroHistory() {
 		if (visionTimeDelta != null) {
 			gyroHistory.put(Timer.getFPGATimestamp() + visionTimeDelta, getHeading(180.0));
