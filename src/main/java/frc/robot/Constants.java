@@ -34,7 +34,6 @@ public class Constants {
                 0.0001 * SPARK_UNITS_PER_INCH / 10f);
 
         // Turn controller
-        public static final int GYRO_HISTORY_LENGTH = 50;
         public static final double LPF_PERCENT = 1;
         public static final double TOLERANCE_DEGREES = 2.0;
         public static final FPID TURN_FPID = new FPID(
@@ -76,8 +75,6 @@ public class Constants {
 
         public static final int MAX_VELOCITY = 2269, MAX_ACCELERATION = 2 * MAX_VELOCITY;
         public static final int MIN_VELOCITY = 0;
-
-        public static final double HOLD_VOLTAGE = 0.05;
 
         public static final int SMART_MOTION_SLOT = 0;
         

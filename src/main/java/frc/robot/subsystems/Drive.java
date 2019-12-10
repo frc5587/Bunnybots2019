@@ -22,14 +22,7 @@ import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class Drive extends SparkAbstractDrive implements PIDOutput {
-
-    public static final Pathgen SLOW_PATHGEN = new Pathgen(30, 0.010, 36, 60, 120);
-	public static final Pathgen MED_PATHGEN = new Pathgen(30, 0.010, 60, 80, 160);
-    public static final Pathgen FAST_PATHGEN = new Pathgen(30, 0.010, 84, 80, 160);
   
-    private LimitedHashMap<Double, Double> gyroHistory;
-	private ArrayList<Double> visionTimeDeltas;
-	private Double visionTimeDelta;
     private PIDController turnController;
     private boolean turnEnabledFirstTime;
     
@@ -41,9 +34,6 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 
         setAHRS(new AHRS(Port.kMXP));
         setConstants(Constants.Drive.K_MAX_VELOCITY, Constants.Drive.K_TIMEOUT_MS, Constants.Drive.WHEEL_DIAMETER, Constants.Drive.MIN_BUFFER_COUNT);
-        
-        gyroHistory = new LimitedHashMap<>(Constants.Drive.GYRO_HISTORY_LENGTH);
-        visionTimeDeltas = new ArrayList<>();
         
         var fpid = Constants.Drive.TURN_FPID;
 		turnController = new PIDController(fpid.kP, fpid.kI, fpid.kD, fpid.kF, ahrs, this, 0.010);
@@ -84,10 +74,8 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
         spark_pidControllerLeft.setD(Constants.Drive.LEFT_PIDS_DOUBLE[2], slot);
         spark_pidControllerLeft.setFF(Constants.Drive.LEFT_PIDS_DOUBLE[3], slot);
 
-        // spark_pidControllerLeft.setSmartMotionMaxVelocity(Constants.Drive.MAX_VELOCITY, Constants.Drive.K_TIMEOUT_MS);
         spark_pidControllerLeft.setSmartMotionMaxVelocity(Constants.Drive.MAX_VELOCITY, slot);
         spark_pidControllerLeft.setSmartMotionMaxAccel(Constants.Drive.MAX_ACCELERATION, slot);
-        // spark_pidControllerLeft.setSmartMotionMinOutputVelocity(Constants.Drive.MIN_VELOCITY, Constants.Drive.SMART_MOTION_SLOT);
         spark_pidControllerLeft.setSmartMotionMinOutputVelocity(Constants.Drive.MIN_VELOCITY, Constants.Drive.SMART_MOTION_SLOT);
         spark_pidControllerLeft.setSmartMotionAllowedClosedLoopError(Constants.Drive.ALLOWED_ERR, Constants.Drive.SMART_MOTION_SLOT);
 
@@ -165,51 +153,7 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 	public boolean turnPIDEnabled() {
 		return turnController.isEnabled();
 	}
-
-	public void setVisionTimeDelta(double visionTimeDelta) {
-		visionTimeDeltas.add(visionTimeDelta);
-
-		double sum = 0;
-		for (var delta : visionTimeDeltas) {
-			sum += delta;
-		}
-
-		this.visionTimeDelta = sum / visionTimeDeltas.size();
-	}
 	
-	public void updateGyroHistory() {
-		if (visionTimeDelta != null) {
-			gyroHistory.put(Timer.getFPGATimestamp() + visionTimeDelta, getHeading(180.0));
-		}
-	}
-
-	public double getAngleAtClosestTime(double time) {
-		double lastVal = Double.NaN;
-		double lastDeltaSign = Double.NaN;
-
-		time += visionTimeDelta;
-
-		var currentCopy = new LinkedHashMap<>(gyroHistory);
-
-		// gyroHistory array is sorted, given that it's made up of times
-		for (var entry : currentCopy.keySet()) {
-			// When sign of delta changes, we know we have overshot, so use last (closest) value
-			var delta = time - entry;
-			var sign = Math.signum(delta);
-			if (lastDeltaSign != Double.NaN && lastDeltaSign != sign) {
-				break;
-			} else {
-				lastVal = entry;
-				lastDeltaSign = sign;
-			}
-		}
-
-		System.out.println("TARGET TIME: " + time);
-		System.out.println("LAST VAL: " + lastVal);
-
-		return gyroHistory.get(lastVal);
-	}
-
 	@Override
 	public void pidWrite(double output) {
 		if (turnEnabledFirstTime) {

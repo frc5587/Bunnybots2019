@@ -31,13 +31,6 @@ public class ArcadeDrive extends InstantCommand {
 		var throttle = -OI.joy.getY();
 		var curve = OI.joy.getX() * 0.85;
 
-		// Code for finding max velocity of a given motor
-		// var currentVel = kDrive.getLeftVelocity();
-		// if (currentVel > maxVelocity) {
-		// 	maxVelocity = currentVel;
-		// 	System.out.println(maxVelocity);
-		// }
-
 		kDrive.vbusArcade(throttle, curve);
 
 		kDrive.sendDebugInfo();
