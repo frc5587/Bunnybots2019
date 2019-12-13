@@ -48,7 +48,6 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 
     }
 
-
     @Override
 	public void configPID(int slot) {
         // spark_pidControllerLeft.setP(Constants.Drive.LEFT_PIDS_DOUBLE[0], slot);
@@ -75,7 +74,7 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 	@Override
 	public void configSettings() {
 		var timeoutMs =  Constants.Drive.K_TIMEOUT_MS;
-		
+
 		leftLeader.restoreFactoryDefaults();
 		leftFollower.restoreFactoryDefaults();
 		rightLeader.restoreFactoryDefaults();
