@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +24,7 @@ import frc.robot.subsystems.Drive;
  */
 public class Robot extends TimedRobot {
   public static final Drive DRIVETRAIN = new Drive();
-  public static final ArcadeDrive ARCADE_DRIVE = new ArcadeDrive();
+  private Command arcadeDrive;
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
@@ -89,7 +90,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    ARCADE_DRIVE.start();
+    arcadeDrive.start();
   }
   /**
    * This function is called periodically during operator control.

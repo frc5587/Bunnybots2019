@@ -23,13 +23,10 @@ public class ArcadeDrive extends InstantCommand {
     // Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		// Xbox configuration
-		// double throttle = -OI.xb.getY(Hand.kLeft);
-		// double curve = OI.xb.getX(Hand.kLeft);
-
+	
 		// Joystick configuration
 		var throttle = -OI.joy.getY();
-		var curve = OI.joy.getX() * 0.85;
+		var curve = OI.joy.getX();
 
 		kDrive.vbusArcade(throttle, curve);
 
@@ -39,6 +36,11 @@ public class ArcadeDrive extends InstantCommand {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+	}
+
+	@Override
+	protected boolean isFinished() {
+		return false;
 	}
 
 	// Called when another command which requires one or more of the same
