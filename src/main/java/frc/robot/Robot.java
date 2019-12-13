@@ -13,8 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Sucker;
+import frc.robot.commands.control.ArcadeDrive;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +30,9 @@ import frc.robot.subsystems.Shooter;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static final Drive DRIVETRAIN = new Drive();
+  private Command arcadeDrive;
+
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -31,8 +40,8 @@ public class Robot extends TimedRobot {
 
   public static final Shooter shootBall = new Shooter();
   public static final Intake intakeBall = new Intake();
-  private static final Shoot launcher = new Shoot();
-  private static final Sucker balls = new Sucker();
+  private Shoot launcher;
+  private Sucker balls;
 
   @Override
   public void robotInit() {
@@ -40,6 +49,9 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
+    arcadeDrive = new ArcadeDrive();
+    launcher = new Shoot();
+    balls = new Sucker();
   }
 
   /**
@@ -94,16 +106,14 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     balls.start();
     launcher.start();
+    arcadeDrive.start();
   }
-
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    balls.start();
-    launcher.start();
 
   }
 
