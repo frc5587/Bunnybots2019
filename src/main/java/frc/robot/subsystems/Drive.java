@@ -21,10 +21,10 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
     // private boolean turnEnabledFirstTime;
     
     public Drive() {
-        super(new CANSparkMax(RobotMap.Drive.LEFT_LEADER, MotorType.kBrushless),
-                new CANSparkMax(RobotMap.Drive.RIGHT_LEADER, MotorType.kBrushless),
-                new CANSparkMax(RobotMap.Drive.LEFT_FOLLOWER, MotorType.kBrushless),
-                new CANSparkMax(RobotMap.Drive.RIGHT_FOLLOWER, MotorType.kBrushless), true);
+        super(new CANSparkMax(RobotMap.Drive.LEFT_ONE, MotorType.kBrushless),
+                new CANSparkMax(RobotMap.Drive.RIGHT_ONE, MotorType.kBrushless),
+                new CANSparkMax(RobotMap.Drive.LEFT_TWO, MotorType.kBrushless),
+                new CANSparkMax(RobotMap.Drive.RIGHT_ONE, MotorType.kBrushless), true);
 
         setAHRS(new AHRS(Port.kMXP));
         setConstants(Constants.Drive.K_MAX_VELOCITY, Constants.Drive.K_TIMEOUT_MS, Constants.Drive.WHEEL_DIAMETER, Constants.Drive.MIN_BUFFER_COUNT);
@@ -41,11 +41,12 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 
         // spark_pidControllerLeft = leftLeader.getPIDController();
         // spark_pidControllerLeft = rightLeader.getPIDController();
-        leftSparkAnalog = leftLeader.getAnalog(AnalogMode.kAbsolute);
-        rightSparkAnalog = rightLeader.getAnalog(AnalogMode.kAbsolute);
-        leftSparkEncoder = leftLeader.getEncoder();
-        rightSparkEncoder = rightLeader.getEncoder();
+        // leftSparkAnalog = leftOne.getAnalog(AnalogMode.kAbsolute);
+        // rightSparkAnalog = rightOne.getAnalog(AnalogMode.kAbsolute);
+        // leftSparkEncoder = leftOne.getEncoder();
+        // rightSparkEncoder = rightOne.getEncoder();
 
+		configSettings();
     }
 
     @Override
@@ -75,31 +76,52 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 	public void configSettings() {
 		var timeoutMs =  Constants.Drive.K_TIMEOUT_MS;
 
-		leftLeader.restoreFactoryDefaults();
-		leftFollower.restoreFactoryDefaults();
-		rightLeader.restoreFactoryDefaults();
-		rightFollower.restoreFactoryDefaults();
+		leftOne.restoreFactoryDefaults();
+		leftOne.restoreFactoryDefaults();
+		rightOne.restoreFactoryDefaults();
+		rightTwo.restoreFactoryDefaults();
 
-		leftLeader.setInverted(false);
+		leftOne.setInverted(false);
 
-        leftLeader.setSoftLimit(SoftLimitDirection.kForward, Constants.Drive.MAX_PERCENT_FW);
-        leftLeader.setSoftLimit(SoftLimitDirection.kReverse, -Constants.Drive.MAX_PERCENT_BW);
+        leftOne.setSoftLimit(SoftLimitDirection.kForward, Constants.Drive.MAX_PERCENT_FW);
+        leftOne.setSoftLimit(SoftLimitDirection.kReverse, -Constants.Drive.MAX_PERCENT_BW);
         // spark_pidControllerLeft.setOutputRange(-Constants.Drive.MAX_PERCENT_BW, Constants.Drive.MAX_PERCENT_FW);
 
-        leftLeader.setSmartCurrentLimit(30, 30);
+        leftOne.setSmartCurrentLimit(30, 30);
 
-		leftLeader.enableVoltageCompensation(Constants.Drive.V_COMP_SATURATION);
+		leftOne.enableVoltageCompensation(Constants.Drive.V_COMP_SATURATION);
 		
 
-		rightLeader.setInverted(true);
+		rightOne.setInverted(true);
 
-        rightLeader.setSoftLimit(SoftLimitDirection.kForward, Constants.Drive.MAX_PERCENT_FW);
-        rightLeader.setSoftLimit(SoftLimitDirection.kReverse, -Constants.Drive.MAX_PERCENT_BW);
+        rightOne.setSoftLimit(SoftLimitDirection.kForward, Constants.Drive.MAX_PERCENT_FW);
+        rightOne.setSoftLimit(SoftLimitDirection.kReverse, -Constants.Drive.MAX_PERCENT_BW);
         // spark_pidControllerRight.setOutputRange(-Constants.Drive.MAX_PERCENT_BW, Constants.Drive.MAX_PERCENT_FW);
 
-        rightLeader.setSmartCurrentLimit(40, 40);
+        rightOne.setSmartCurrentLimit(30, 30);
 
-        rightLeader.enableVoltageCompensation(Constants.Drive.V_COMP_SATURATION);
+		rightOne.enableVoltageCompensation(Constants.Drive.V_COMP_SATURATION);
+		
+		leftOne.setInverted(false);
+
+        leftOne.setSoftLimit(SoftLimitDirection.kForward, Constants.Drive.MAX_PERCENT_FW);
+        leftOne.setSoftLimit(SoftLimitDirection.kReverse, -Constants.Drive.MAX_PERCENT_BW);
+        // spark_pidControllerLeft.setOutputRange(-Constants.Drive.MAX_PERCENT_BW, Constants.Drive.MAX_PERCENT_FW);
+
+        leftOne.setSmartCurrentLimit(30, 30);
+
+		leftOne.enableVoltageCompensation(Constants.Drive.V_COMP_SATURATION);
+		
+
+		rightTwo.setInverted(true);
+
+        rightTwo.setSoftLimit(SoftLimitDirection.kForward, Constants.Drive.MAX_PERCENT_FW);
+        rightTwo.setSoftLimit(SoftLimitDirection.kReverse, -Constants.Drive.MAX_PERCENT_BW);
+        // spark_pidControllerRight.setOutputRange(-Constants.Drive.MAX_PERCENT_BW, Constants.Drive.MAX_PERCENT_FW);
+
+        rightTwo.setSmartCurrentLimit(30, 30);
+
+        rightTwo.enableVoltageCompensation(Constants.Drive.V_COMP_SATURATION);
 	}
 
 
