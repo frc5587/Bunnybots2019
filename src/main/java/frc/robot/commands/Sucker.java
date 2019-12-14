@@ -16,7 +16,7 @@ public class Sucker extends Command {
   public Sucker() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.intakeBall);
+    requires(Robot.INTAKE_BALL);
   }
 
   // Called just before this Command runs the first time
@@ -30,11 +30,11 @@ public class Sucker extends Command {
     boolean button1suck = OI.xb.getAButton();
     boolean button2nosuck = OI.xb.getYButton();
     if (button1suck) {
-      Robot.intakeBall.in();
+      Robot.INTAKE_BALL.in();
     } else if (button2nosuck) {
-      Robot.intakeBall.out();
+      Robot.INTAKE_BALL.out();
     } else {
-      Robot.intakeBall.noIntake();
+      Robot.INTAKE_BALL.noIntake();
     }
   }
 

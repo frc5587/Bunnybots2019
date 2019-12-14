@@ -13,13 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Sucker;
+import frc.robot.commands.autonomous.AutoForward;
 import frc.robot.commands.control.ArcadeDrive;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drive;
 
 /**
@@ -31,17 +29,16 @@ import frc.robot.subsystems.Drive;
  */
 public class Robot extends TimedRobot {
   public static final Drive DRIVETRAIN = new Drive();
+  public static final Shooter SHOOT_BALL = new Shooter();
+  public static final Intake INTAKE_BALL = new Intake();
   private Command arcadeDrive;
+  private Shoot launcher;
+  private Sucker balls;
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
-  public static final Shooter shootBall = new Shooter();
-  public static final Intake intakeBall = new Intake();
-  private Shoot launcher;
-  private Sucker balls;
 
   @Override
   public void robotInit() {
@@ -84,6 +81,8 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    new AutoForward().start();
   }
 
   /**
@@ -100,6 +99,8 @@ public class Robot extends TimedRobot {
       // Put default auto code here
       break;
     }
+
+    Scheduler.getInstance().run();
   }
 
   @Override

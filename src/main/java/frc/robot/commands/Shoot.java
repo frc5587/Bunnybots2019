@@ -17,7 +17,7 @@ public class Shoot extends Command {
   public Shoot() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.shootBall);
+    requires(Robot.SHOOT_BALL);
   }
 
   // Called just before this Command runs the first time
@@ -30,12 +30,12 @@ public class Shoot extends Command {
   protected void execute() {
     double val = OI.xb.getY(Hand.kLeft);
     boolean buttonUnJam =  OI.xb.getXButton();
-    Robot.shootBall.bestShoot(-val);
+    Robot.SHOOT_BALL.bestShoot(-val);
     if(buttonUnJam){
-      Robot.shootBall.unJam();
+      Robot.SHOOT_BALL.unJam();
     }
     else {
-      Robot.shootBall.jamDisabled();
+      Robot.SHOOT_BALL.jamDisabled();
     }
   }
 

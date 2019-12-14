@@ -31,6 +31,7 @@ public class ArcadeDrive extends InstantCommand {
 		kDrive.vbusArcade(throttle, curve);
 
 		kDrive.sendDebugInfo();
+
 	}
 
 	// Called once after isFinished returns true

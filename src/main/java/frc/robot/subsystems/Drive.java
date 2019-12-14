@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANAnalog.AnalogMode;
+// import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -74,7 +74,7 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 
 	@Override
 	public void configSettings() {
-		var timeoutMs =  Constants.Drive.K_TIMEOUT_MS;
+		// var timeoutMs =  Constants.Drive.K_TIMEOUT_MS;
 
 		leftOne.restoreFactoryDefaults();
 		leftOne.restoreFactoryDefaults();
@@ -170,6 +170,13 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 		// if (turnEnabledFirstTime) {
 		// 	vbusArcade(0.3, Constants.Drive.LPF_PERCENT * output);	
 		// }
+	}
+
+	public void driveForward(double speed) {
+		leftOne.set(speed);
+		leftTwo.set(speed);
+		rightOne.set(speed);
+		rightTwo.set(speed);
 	}
 
 	public void initDefaultCommand() {
