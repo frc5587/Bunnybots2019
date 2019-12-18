@@ -17,6 +17,7 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
+
 public class Shooter extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -29,22 +30,12 @@ public class Shooter extends Subsystem {
     deJammer = new TalonSRX(RobotMap.Shooter.SHOOT_TALON);
   }
 
-  public void shoot() {
-    shooterMax.set(1);
-  }
-
-  public void backwardsShoot() {
-    shooterMax.set(-1);
-  }
-
   public void bestShoot(double val) {
     shooterMax.set(val);
   }
-  public void unJam(){
-    deJammer.set(ControlMode.PercentOutput, -1);
-  }
-  public void jamDisabled(){
-    deJammer.set(ControlMode.PercentOutput, 0);
+
+  public void jam(double percent) {
+    deJammer.set(ControlMode.PercentOutput, percent);
   }
 
   @Override

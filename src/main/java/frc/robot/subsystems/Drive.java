@@ -173,10 +173,10 @@ public class Drive extends SparkAbstractDrive implements PIDOutput {
 	}
 
 	public void driveForward(double speed) {
-		leftOne.set(speed);
-		leftTwo.set(speed);
-		rightOne.set(speed);
-		rightTwo.set(speed);
+		leftOne.set(-speed);
+		leftTwo.set(-speed);
+		rightOne.set(-speed);
+		rightTwo.set(-speed);
 	}
 
 	public void initDefaultCommand() {

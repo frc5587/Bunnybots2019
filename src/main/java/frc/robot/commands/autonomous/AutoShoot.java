@@ -4,28 +4,28 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class AutoForward extends Command {
+public class AutoShoot extends Command {
     private Timer timer = new Timer();
 
-    public AutoForward() {
-        requires(Robot.DRIVETRAIN);
+    public AutoShoot() {
+        requires(Robot.SHOOT_BALL);
     }
 
     @Override
     protected void initialize() {
         timer.start();
         // Robot.DRIVETRAIN.enableBrakeMode(true);
-        Robot.DRIVETRAIN.driveForward(.3);
+        Robot.SHOOT_BALL.bestShoot(.75);
     }
 
     @Override
     protected boolean isFinished() {
-        return timer.hasPeriodPassed(8);
+        return timer.hasPeriodPassed(7);
     }
 
     @Override
     protected void end() {
-        Robot.DRIVETRAIN.stop();
+        Robot.SHOOT_BALL.bestShoot(0);
         timer.stop();
     }
 }

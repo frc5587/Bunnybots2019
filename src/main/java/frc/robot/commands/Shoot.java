@@ -29,13 +29,21 @@ public class Shoot extends Command {
   @Override
   protected void execute() {
     double val = OI.xb.getY(Hand.kLeft);
-    boolean buttonUnJam =  OI.xb.getXButton();
-    Robot.SHOOT_BALL.bestShoot(-val);
-    if(buttonUnJam){
-      Robot.SHOOT_BALL.unJam();
+    boolean buttonUnJam = OI.xb.getBumper(Hand.kLeft);
+    boolean buttonSetSpeed = OI.xb.getBButton();
+    boolean xButton = OI.xb.getXButton();
+    // Robot.SHOOT_BALL.bestShoot(-val);
+    if (buttonUnJam) {
+      Robot.SHOOT_BALL.jam(-.4);
+    } else {
+      Robot.SHOOT_BALL.jam(0);
     }
-    else {
-      Robot.SHOOT_BALL.jamDisabled();
+    if (buttonSetSpeed) {
+      Robot.SHOOT_BALL.bestShoot(.75);
+    } else if (xButton) {
+      Robot.SHOOT_BALL.bestShoot(1);
+    } else {
+      Robot.SHOOT_BALL.bestShoot(-val);
     }
   }
 
