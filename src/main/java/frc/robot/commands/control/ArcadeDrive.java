@@ -27,8 +27,17 @@ public class ArcadeDrive extends InstantCommand {
 		// Joystick configuration
 		var throttle = -OI.joy.getY();
 		var curve = OI.joy.getX();
+		var zCurve = OI.joy.getZ();
 
-		kDrive.vbusArcade(throttle, curve);
+		var posCurve = Math.abs(curve);
+		var newCurve = Math.copySign(approx(posCurve), curve);
+
+		if (newCurve == 0) {
+			newCurve = 0.12 * zCurve;
+		} 
+		
+		kDrive.vbusArcade(throttle, newCurve);
+		
 
 		kDrive.sendDebugInfo();
 
@@ -49,4 +58,28 @@ public class ArcadeDrive extends InstantCommand {
 	@Override
 	protected void interrupted() {
 	}
+
+	public double approx(double x) {   // ~1.3x slower than control group
+        if (0 <= x && x < 0.1) {  // 1
+            return 0;
+        } else if (0.1<= x && x < 0.6) {  // 2
+            return 0.4 * (x - 0.1);
+        } else if (0.6 <= x && x < 0.8) {  // 3
+            return 0.75 * (x - 0.33);
+        } else if (0.8 <= x && x < 0.9) {  // 4
+            return 1.5 * (x - 0.57);
+        } else if (0.9 <= x && x < 0.95) {  // 5
+            return 4 * (x - 0.78);
+        } else if (0.95 <= x && x < 0.97) {  // 6
+            return 5 * (x - 0.81);
+        } else if (0.97 <= x && x <= 1) {  // 7
+            return 6.66 * (x - 0.85);
+        } else {
+            System.out.println(x);
+            throw new ArithmeticException("X needs to be between 0 and 1");
+        }
+    }
 }
+
+
+//  Make z axis output between ~.12 and 0
