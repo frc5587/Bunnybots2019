@@ -14,7 +14,6 @@ public class AutoForward extends Command {
     @Override
     protected void initialize() {
         timer.start();
-        // Robot.DRIVETRAIN.enableBrakeMode(true);
         Robot.DRIVETRAIN.driveForward(.3);
     }
 

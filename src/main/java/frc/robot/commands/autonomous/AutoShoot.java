@@ -8,14 +8,13 @@ public class AutoShoot extends Command {
     private Timer timer = new Timer();
 
     public AutoShoot() {
-        requires(Robot.SHOOT_BALL);
+        requires(Robot.SHOOTER);
     }
 
     @Override
     protected void initialize() {
         timer.start();
-        // Robot.DRIVETRAIN.enableBrakeMode(true);
-        Robot.SHOOT_BALL.bestShoot(.75);
+        Robot.SHOOTER.setShooterSpeed(.75);
     }
 
     @Override
@@ -25,7 +24,7 @@ public class AutoShoot extends Command {
 
     @Override
     protected void end() {
-        Robot.SHOOT_BALL.bestShoot(0);
+        Robot.SHOOTER.setShooterSpeed(0);
         timer.stop();
     }
 }

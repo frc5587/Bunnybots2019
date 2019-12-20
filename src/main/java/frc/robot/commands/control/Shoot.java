@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.control;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,8 +16,7 @@ public class Shoot extends Command {
 
   public Shoot() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.SHOOT_BALL);
+    requires(Robot.SHOOTER);
   }
 
   // Called just before this Command runs the first time
@@ -32,18 +31,18 @@ public class Shoot extends Command {
     boolean buttonUnJam = OI.xb.getBumper(Hand.kLeft);
     boolean buttonSetSpeed = OI.xb.getBButton();
     boolean xButton = OI.xb.getXButton();
-    // Robot.SHOOT_BALL.bestShoot(-val);
+
     if (buttonUnJam) {
-      Robot.SHOOT_BALL.jam(-.4);
+      Robot.SHOOTER.setDeJammerSpeed(-.4);
     } else {
-      Robot.SHOOT_BALL.jam(0);
+      Robot.SHOOTER.setDeJammerSpeed(0);
     }
     if (buttonSetSpeed) {
-      Robot.SHOOT_BALL.bestShoot(.75);
+      Robot.SHOOTER.setShooterSpeed(.75);
     } else if (xButton) {
-      Robot.SHOOT_BALL.bestShoot(1);
+      Robot.SHOOTER.setShooterSpeed(1);
     } else {
-      Robot.SHOOT_BALL.bestShoot(-val);
+      Robot.SHOOTER.setShooterSpeed(-val);
     }
   }
 

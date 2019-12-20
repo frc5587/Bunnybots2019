@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.control;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
@@ -15,8 +15,7 @@ public class Sucker extends Command {
 
   public Sucker() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.INTAKE_BALL);
+    requires(Robot.INTAKE);
   }
 
   // Called just before this Command runs the first time
@@ -27,14 +26,12 @@ public class Sucker extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean button1suck = OI.xb.getAButton();
-    boolean button2nosuck = OI.xb.getYButton();
-    if (button1suck) {
-      Robot.INTAKE_BALL.in();
-    } else if (button2nosuck) {
-      Robot.INTAKE_BALL.out();
+    if (OI.xb.getAButton()) {
+      Robot.INTAKE.in();
+    } else if (OI.xb.getYButton()) {
+      Robot.INTAKE.out();
     } else {
-      Robot.INTAKE_BALL.noIntake();
+      Robot.INTAKE.noIntake();
     }
   }
 

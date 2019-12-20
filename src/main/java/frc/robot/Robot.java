@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Shoot;
-import frc.robot.commands.Sucker;
+import frc.robot.commands.control.Shoot;
+import frc.robot.commands.control.Sucker;
 import frc.robot.commands.autonomous.AutoCommandGroup;
-import frc.robot.commands.autonomous.AutoForward;
 import frc.robot.commands.control.ArcadeDrive;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -30,8 +29,8 @@ import frc.robot.subsystems.Drive;
  */
 public class Robot extends TimedRobot {
   public static final Drive DRIVETRAIN = new Drive();
-  public static final Shooter SHOOT_BALL = new Shooter();
-  public static final Intake INTAKE_BALL = new Intake();
+  public static final Shooter SHOOTER = new Shooter();
+  public static final Intake INTAKE = new Intake();
   private Command arcadeDrive;
   private Shoot launcher;
   private Sucker balls;
@@ -83,7 +82,6 @@ public class Robot extends TimedRobot {
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
 
-    // new AutoForward().start();
     new AutoCommandGroup().start();
   }
 
@@ -111,13 +109,13 @@ public class Robot extends TimedRobot {
     launcher.start();
     arcadeDrive.start();
   }
+
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-
   }
 
   /**
@@ -125,5 +123,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+
   }
 }

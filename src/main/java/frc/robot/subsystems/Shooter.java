@@ -14,13 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-/**
- * Add your docs here.
- */
-
 public class Shooter extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   private CANSparkMax shooterMax;
   private TalonSRX deJammer;
 
@@ -30,17 +24,16 @@ public class Shooter extends Subsystem {
     deJammer = new TalonSRX(RobotMap.Shooter.SHOOT_TALON);
   }
 
-  public void bestShoot(double val) {
+  public void setShooterSpeed(double val) {
     shooterMax.set(val);
   }
 
-  public void jam(double percent) {
+  public void setDeJammerSpeed(double percent) {
     deJammer.set(ControlMode.PercentOutput, percent);
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  
   }
 }
