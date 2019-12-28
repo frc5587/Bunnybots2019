@@ -29,14 +29,26 @@ public class ArcadeDrive extends InstantCommand {
 		var curve = OI.joy.getX();
 		var zCurve = OI.joy.getZ();
 
+		// Y Throttle control
+		var posThrottle = Math.abs(throttle);
+		var newThrottle = Math.copySign(deadband(posThrottle), throttle);
+
+		// X Curve control
 		var posCurve = Math.abs(curve);
 		var newCurve = Math.copySign(approx(posCurve), curve);
 
-		if (newCurve == 0) {
-			newCurve = 0.12 * zCurve;
-		} 
-		
-		kDrive.vbusArcade(throttle, newCurve);
+		// Z Curve control
+		var PosCurveZ = Math.abs(zCurve);
+		var newCurveZ = 0.4 * Math.copySign(approx(PosCurveZ), zCurve);
+
+		// Z Curve control
+		if (curve < 0.9) {
+
+			newCurve += newCurveZ;
+
+		} else
+		System.out.println(newThrottle + "   " + newCurve);
+		kDrive.vbusArcade(newThrottle, newCurve);
 		
 
 		kDrive.sendDebugInfo();
@@ -78,7 +90,15 @@ public class ArcadeDrive extends InstantCommand {
             System.out.println(x);
             throw new ArithmeticException("X needs to be between 0 and 1");
         }
-    }
+	}
+	
+	public double deadband(double x) {
+		if (0 <= x && x < 0.1) {
+			return 0;
+		} else {
+			return (1.11 * x) - 0.11;
+		}
+	}
 }
 
 
